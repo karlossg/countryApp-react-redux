@@ -9,6 +9,7 @@ import Home from './presentational/Home';
 import Contact from './presentational/Contact';
 import NotFound from './presentational/NotFound';
 import CountryFlagContainer from './containers/CountryFlagContainer';
+import CountryDetailsContainer from './containers/CountryDetailsContainer';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -21,6 +22,7 @@ ReactDOM.render(
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/countries" component={CountryFlagContainer} />
+          <Route exact path="/countries/country/:id" component={CountryDetailsContainer} />
           <Route exact path="/contact" component={Contact} />
           <Route component={NotFound} />
         </Switch>
