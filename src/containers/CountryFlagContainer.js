@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CountryFlagList from '../presentational/CountryFlagList';
-import { getCountries } from '../actions/countries-actions';
+import { getCountries } from '../actions/countries-actionsCreators';
 
 class CountryFlagContainer extends Component {
   constructor(props) {
