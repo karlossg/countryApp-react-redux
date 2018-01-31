@@ -5,10 +5,11 @@ import { Provider } from 'react-redux';
 import store from './store/index';
 import App from './containers/App';
 import Navigation from './presentational/Navigation';
+import Home from './presentational/Home';
+import Contact from './presentational/Contact';
+import NotFound from './presentational/NotFound';
 
 import registerServiceWorker from './registerServiceWorker';
-
-const FourOhFour = () => <h1>404: Page not found!</h1>;
 
 ReactDOM.render(
   <Provider store={store}>
@@ -17,8 +18,9 @@ ReactDOM.render(
         <Route patch="/" component={Navigation} />
         <hr />
         <Switch>
-          <Route exact path="/" component={App} />
-          <Route component={FourOhFour} />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/contact" component={Contact} />
+          <Route component={NotFound} />
         </Switch>
       </div>
     </BrowserRouter>
