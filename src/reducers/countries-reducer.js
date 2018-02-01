@@ -1,10 +1,10 @@
-import { GET_COUNTRIES, GET_COUNTRY, SEARCH_COUNTRIES } from '../actions/countries-actions';
+import { GET_COUNTRIES, GET_COUNTRY, SEARCH_COUNTRIES, DELETE_COUNTRY } from '../actions/countries-actions';
 import countriesData from '../data/countries.json';
 
 const initialState = {
   countries: countriesData,
   selectedCountry: {},
-  visibleCountries: []
+  visibleCountries: countriesData
 };
 
 const countriesReducer = function(state = initialState, action) {
@@ -19,6 +19,10 @@ const countriesReducer = function(state = initialState, action) {
         country.name.toLowerCase().includes(action.searchText.toLowerCase())
       );
       return Object.assign({}, state, { visibleCountries: foundCountries });
+    case DELETE_COUNTRY:
+      const notDeletedCountries = state.countries.filter(country => country.id !== action.id);
+      const notDeletedVisibleCountries = state.visibleCountries.filter(country => country.id !== action.id);
+      return Object.assign({}, state, { countries: notDeletedCountries, visibleCountries: notDeletedVisibleCountries });
     default:
       return state;
   }
