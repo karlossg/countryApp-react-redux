@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setContinent, deleteCountry } from '../actions/countries-actions';
+import { setContinent, deleteCountry } from '../actions/countries-actionsCreators';
 import CountryFlagList from '../presentational/CountryFlagList';
 
 class ContinentsContainer extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   chooseContinent(event) {
     this.props.dispatch(setContinent(event.target.value));
   }

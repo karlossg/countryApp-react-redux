@@ -10,6 +10,7 @@ import Contact from './presentational/Contact';
 import NotFound from './presentational/NotFound';
 import CountryFlagContainer from './containers/CountryFlagContainer';
 import CountryDetailsContainer from './containers/CountryDetailsContainer';
+import ContinentsContainer from './containers/ContinentsContainer';
 
 import registerServiceWorker from './registerServiceWorker';
 
@@ -23,6 +24,7 @@ ReactDOM.render(
           <Route exact path="/" component={Home} />
           <Route exact path="/countries" component={CountryFlagContainer} />
           <Route exact path="/countries/country/:id" component={CountryDetailsContainer} />
+          <Route exact path="/continents" component={ContinentsContainer} />
           <Route exact path="/contact" component={Contact} />
           <Route component={NotFound} />
         </Switch>

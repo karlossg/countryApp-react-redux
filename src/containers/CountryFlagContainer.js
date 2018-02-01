@@ -20,7 +20,7 @@ class CountryFlagContainer extends Component {
     return (
       <div>
         <div className="search text-center">
-          <input type="text" onChange={this.search.bind(this)} />
+          <input type="text" onChange={this.search.bind(this)} placeholder="Search..." />
         </div>
         <CountryFlagList countries={this.props.visibleCountries} deleteCountry={this.deleteCountry.bind(this)} />
       </div>
