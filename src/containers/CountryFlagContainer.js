@@ -9,16 +9,17 @@ class CountryFlagContainer extends Component {
     super(props);
 
     this.state = {
-      perPage: 3,
+      perPage: 2,
       offset: 0,
-      pageCount: 2
+      pageCount: 3
     }
   }
 
 
   componentDidMount() {
-    this.props.dispatch(getCountries(this.state.perPage));
-    this.props.dispatch(searchCountries(''));
+    this.props.dispatch(getCountries(this.state.offset, this.state.perPage));
+    // this.props.dispatch(searchCountries(''));
+    this.setState({ offset: 3 });
   }
   search(event) {
     this.props.dispatch(searchCountries(event.target.value));
@@ -29,12 +30,12 @@ class CountryFlagContainer extends Component {
   }
 
   handlePageClick = (data) => {
+    console.log(data)
     let selected = data.selected;
     let offset = Math.ceil(selected * this.state.perPage);
 
-    // this.setState({offset: offset}, () => {
-    //   this.loadCommentsFromServer();
-    // });
+    this.setState({ offset: offset });
+    this.props.dispatch(getCountries(this.state.offset, this.state.offset + 3));
   };
 
   render() {
@@ -50,8 +51,8 @@ class CountryFlagContainer extends Component {
             breakLabel={<a href="">...</a>}
             breakClassName={"break-me"}
             pageCount={this.state.pageCount}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={1}
+            marginPagesDisplayed={20}
+            pageRangeDisplayed={10}
             onPageChange={this.handlePageClick}
             containerClassName={"pagination"}
             subContainerClassName={"pages pagination"}

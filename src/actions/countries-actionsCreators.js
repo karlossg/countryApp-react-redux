@@ -1,10 +1,10 @@
 import { GET_COUNTRIES, GET_COUNTRY, DELETE_COUNTRY, SEARCH_COUNTRIES, SET_CONTINENT } from './countries-actions';
 
-export function getCountries(limit, offset) {
+export function getCountries(offset, limit) {
   return {
     type: GET_COUNTRIES,
-    limit,
-    offset
+    offset,
+    limit
   }
 }
 

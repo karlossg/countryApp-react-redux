@@ -16,8 +16,12 @@ const initialState = {
 const countriesReducer = function (state = initialState, action) {
   switch (action.type) {
     case GET_COUNTRIES:
-      const data = state.countries.slice(action.offset, action.limit)
-      return Object.assign({}, state, { countries: data });
+      console.log("visible", state.visibleCountries)
+
+
+      let data = countriesData.slice(action.offset, action.limit)
+      console.log(data)
+      return Object.assign({}, state, { countries: data, visibleCountries: data });
     case GET_COUNTRY:
       const selectedCountry = state.countries.find(country => country.id === parseInt(action.id, 10));
       return Object.assign({}, state, { selectedCountry });
