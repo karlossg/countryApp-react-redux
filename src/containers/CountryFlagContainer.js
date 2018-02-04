@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ReactPaginate from 'react-paginate';
 import CountryFlagList from '../presentational/CountryFlagList';
 import { getCountries, searchCountries, deleteCountry } from '../actions/countries-actionsCreators';
 
@@ -28,7 +29,7 @@ class CountryFlagContainer extends Component {
   }
 }
 
-const mapStateToProps = function(store) {
+const mapStateToProps = function (store) {
   return {
     countries: store.countriesReducer.countries,
     visibleCountries: store.countriesReducer.visibleCountries
