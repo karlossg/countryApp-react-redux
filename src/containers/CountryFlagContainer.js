@@ -16,10 +16,9 @@ class CountryFlagContainer extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state.pageCount);
     this.props.dispatch(getCountries(this.state.offset, this.state.perPage));
     // this.props.dispatch(searchCountries(''));
-    this.setState({ offset: 3 });
+    this.setState({ offset: this.state.perPage });
   }
 
   componentWillMount() {
@@ -35,20 +34,30 @@ class CountryFlagContainer extends Component {
     this.props.dispatch(deleteCountry(id));
   }
 
+  handleSelect(event) {
+    this.setState({ perPage: event.target.value });
+    this.props.dispatch(getCountries(this.state.offset, this.state.perPage));
+  }
+
   handlePageClick = data => {
     // console.log(data);
     let selected = data.selected;
     let offset = Math.ceil(selected * this.state.perPage);
 
     this.setState({ offset: offset });
-    this.props.dispatch(getCountries(this.state.offset, this.state.offset + 3));
+    this.props.dispatch(getCountries(this.state.offset, this.state.offset + this.state.perPage));
   };
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <div className="search text-center">
+          <select onChange={this.handleSelect.bind(this)}>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
           <input type="text" onChange={this.search.bind(this)} placeholder="Search..." />
         </div>
         <div>
