@@ -133,7 +133,7 @@ a:active {
   text-decoration: none;
 }
 
-.selected {
+.active {
   /* border: 0.5 solid rebeccapurple; */
   background-color: #323232;
   width: 35px;

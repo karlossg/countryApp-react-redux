@@ -36,6 +36,7 @@ class CountryFlagContainer extends Component {
 
   handleSelect(event) {
     const pageCount = Math.ceil(20 / event.target.value);
+    this.props.dispatch(getCountries(0, event.target.value));
     this.setState({
       perPage: event.target.value,
       pageCount,
@@ -74,8 +75,9 @@ class CountryFlagContainer extends Component {
                 pageCount={this.state.pageCount}
                 onPageChange={this.handlePageClick}
                 containerClassName={'pagination'}
-                // subContainerClassName={'pages pagination'}
-                // activeClassName={'active'}
+                initialPage={0}
+                pageRangeDisplayed={4}
+                activeClassName={'active'}
               />
             )}
           </div>
