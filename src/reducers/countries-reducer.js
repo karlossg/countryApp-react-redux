@@ -13,7 +13,7 @@ const initialState = {
   visibleCountries: countriesData
 };
 
-const countriesReducer = function(state = initialState, action) {
+const countriesReducer = function (state = initialState, action) {
   switch (action.type) {
     case GET_COUNTRIES:
       let data = countriesData.slice(action.offset, action.limit);
