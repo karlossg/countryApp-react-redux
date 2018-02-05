@@ -10,7 +10,6 @@ class CountryFlagContainer extends Component {
     super(props);
 
     this.state = {
-      perPage: 5,
       offset: 0,
       pageCount: 0,
       firstPage: 0
@@ -18,13 +17,13 @@ class CountryFlagContainer extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getCountries(this.state.offset, this.state.perPage));
+    this.props.dispatch(getCountries(this.state.offset, this.props.perPage));
     this.props.dispatch(searchCountries(''));
-    this.setState({ offset: this.state.perPage });
+    this.setState({ offset: this.props.perPage });
   }
 
   componentWillMount() {
-    const pageCount = 20 / this.state.perPage;
+    const pageCount = 20 / this.props.perPage;
     this.setState({ pageCount });
   }
 
@@ -37,12 +36,12 @@ class CountryFlagContainer extends Component {
   }
 
   handleSelect(event) {
+
     this.setState(this.state)
     const value = Number.parseInt(event.target.value)
     const pageCount = Math.ceil(20 / value);
-
+    this.props.dispatch(setPerPage(value))
     this.setState({
-      perPage: value,
       pageCount,
       offset: 0,
       firstPage: 0
@@ -52,9 +51,9 @@ class CountryFlagContainer extends Component {
 
   handlePageClick = data => {
     let selected = data.selected;
-    let offset = Math.ceil(selected * this.state.perPage);
+    let offset = Math.ceil(selected * this.props.perPage);
     this.setState({ offset: offset, firstPage: selected });
-    this.props.dispatch(getCountries(offset, offset + this.state.perPage));
+    this.props.dispatch(getCountries(offset, offset + this.props.perPage));
   };
 
   render() {
@@ -98,7 +97,8 @@ class CountryFlagContainer extends Component {
 const mapStateToProps = function (store) {
   return {
     countries: store.countriesReducer.countries,
-    visibleCountries: store.countriesReducer.visibleCountries
+    visibleCountries: store.countriesReducer.visibleCountries,
+    perPage: store.paginationReducer.perPage
   };
 };
 
