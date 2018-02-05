@@ -74,7 +74,7 @@ class CountryFlagContainer extends Component {
                 pageCount={this.state.pageCount}
                 onPageChange={this.handlePageClick}
                 containerClassName={'pagination'}
-                subContainerClassName={'pages pagination'}
+                // subContainerClassName={'pages pagination'}
                 // activeClassName={'active'}
               />
             )}
