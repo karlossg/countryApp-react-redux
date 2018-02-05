@@ -42,7 +42,6 @@ class CountryFlagContainer extends Component {
       pageCount,
       offset: 0
     });
-    this.props.dispatch(getCountries(0, event.target.value));
   }
 
   handlePageClick = data => {
