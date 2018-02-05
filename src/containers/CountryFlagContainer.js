@@ -9,18 +9,24 @@ class CountryFlagContainer extends Component {
     super(props);
 
     this.state = {
-      perPage: 2,
+      perPage: 5,
       offset: 0,
-      pageCount: 3
-    }
+      pageCount: 0
+    };
   }
 
-
   componentDidMount() {
+    console.log(this.state.pageCount);
     this.props.dispatch(getCountries(this.state.offset, this.state.perPage));
     // this.props.dispatch(searchCountries(''));
     this.setState({ offset: 3 });
   }
+
+  componentWillMount() {
+    const pageCount = this.props.countries.length / this.state.perPage;
+    this.setState({ pageCount });
+  }
+
   search(event) {
     this.props.dispatch(searchCountries(event.target.value));
   }
@@ -29,8 +35,8 @@ class CountryFlagContainer extends Component {
     this.props.dispatch(deleteCountry(id));
   }
 
-  handlePageClick = (data) => {
-    console.log(data)
+  handlePageClick = data => {
+    // console.log(data);
     let selected = data.selected;
     let offset = Math.ceil(selected * this.state.perPage);
 
@@ -39,6 +45,7 @@ class CountryFlagContainer extends Component {
   };
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <div className="search text-center">
@@ -46,24 +53,28 @@ class CountryFlagContainer extends Component {
         </div>
         <div>
           <CountryFlagList countries={this.props.visibleCountries} deleteCountry={this.deleteCountry.bind(this)} />
-          <ReactPaginate previousLabel={"previous"}
-            nextLabel={"next"}
-            breakLabel={<a href="">...</a>}
-            breakClassName={"break-me"}
-            pageCount={this.state.pageCount}
-            marginPagesDisplayed={20}
-            pageRangeDisplayed={10}
-            onPageChange={this.handlePageClick}
-            containerClassName={"pagination"}
-            subContainerClassName={"pages pagination"}
-            activeClassName={"active"} />
+          <div>
+            <ReactPaginate
+              previousLabel={'previous'}
+              nextLabel={'next'}
+              breakLabel={<a href="">...</a>}
+              breakClassName={'break-me'}
+              pageCount={this.state.pageCount}
+              marginPagesDisplayed={20}
+              pageRangeDisplayed={10}
+              onPageChange={this.handlePageClick}
+              containerClassName={'pagination'}
+              subContainerClassName={'pages pagination'}
+              activeClassName={'active'}
+            />
+          </div>
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = function (store) {
+const mapStateToProps = function(store) {
   return {
     countries: store.countriesReducer.countries,
     visibleCountries: store.countriesReducer.visibleCountries
