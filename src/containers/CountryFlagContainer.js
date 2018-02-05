@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 import CountryFlagList from '../presentational/CountryFlagList';
 import { getCountries, searchCountries, deleteCountry } from '../actions/countries-actionsCreators';
+import { setPerPage } from '../actions/pagination-actionCreators'
 
 class CountryFlagContainer extends Component {
   constructor(props) {
