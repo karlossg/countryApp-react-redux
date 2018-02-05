@@ -17,12 +17,12 @@ class CountryFlagContainer extends Component {
 
   componentDidMount() {
     this.props.dispatch(getCountries(this.state.offset, this.state.perPage));
-    // this.props.dispatch(searchCountries(''));
+    this.props.dispatch(searchCountries(''));
     this.setState({ offset: this.state.perPage });
   }
 
   componentWillMount() {
-    const pageCount = this.props.countries.length / this.state.perPage;
+    const pageCount = 20 / this.state.perPage;
     this.setState({ pageCount });
   }
 
@@ -35,17 +35,20 @@ class CountryFlagContainer extends Component {
   }
 
   handleSelect(event) {
-    this.setState({ perPage: event.target.value });
-    this.props.dispatch(getCountries(this.state.offset, this.state.perPage));
+    const pageCount = Math.ceil(20 / event.target.value);
+    this.setState({
+      perPage: event.target.value,
+      pageCount,
+      offset: 0
+    });
+    this.props.dispatch(getCountries(0, event.target.value));
   }
 
   handlePageClick = data => {
-    // console.log(data);
     let selected = data.selected;
     let offset = Math.ceil(selected * this.state.perPage);
-
     this.setState({ offset: offset });
-    this.props.dispatch(getCountries(this.state.offset, this.state.offset + this.state.perPage));
+    this.props.dispatch(getCountries(offset, offset + this.state.perPage));
   };
 
   render() {
@@ -62,20 +65,19 @@ class CountryFlagContainer extends Component {
         </div>
         <div>
           <CountryFlagList countries={this.props.visibleCountries} deleteCountry={this.deleteCountry.bind(this)} />
-          <div>
-            <ReactPaginate
-              previousLabel={'previous'}
-              nextLabel={'next'}
-              breakLabel={<a href="">...</a>}
-              breakClassName={'break-me'}
-              pageCount={this.state.pageCount}
-              marginPagesDisplayed={20}
-              pageRangeDisplayed={10}
-              onPageChange={this.handlePageClick}
-              containerClassName={'pagination'}
-              subContainerClassName={'pages pagination'}
-              activeClassName={'active'}
-            />
+          <div className="myPagination">
+            {this.state.pageCount > 1 && (
+              <ReactPaginate
+                className="myPagination"
+                previousLabel={'previous'}
+                nextLabel={'next'}
+                pageCount={this.state.pageCount}
+                onPageChange={this.handlePageClick}
+                containerClassName={'pagination'}
+                subContainerClassName={'pages pagination'}
+                // activeClassName={'active'}
+              />
+            )}
           </div>
         </div>
       </div>
