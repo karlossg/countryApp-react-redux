@@ -3,25 +3,13 @@ import { connect } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 import CountryFlagList from '../presentational/CountryFlagList';
 import { getCountries, searchCountries, deleteCountry } from '../actions/countries-actionsCreators';
-import { setPerPage, setOffset, setPageCount } from '../actions/pagination-actionCreators';
+import { setPerPage, setPageCount, setActivePage } from '../actions/pagination-actionCreators';
 
 class CountryFlagContainer extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      firstPage: 0
-    };
-  }
-
   componentDidMount() {
+    const pageCount = this.props.countries.length / this.props.perPage;
     this.props.dispatch(getCountries());
     this.props.dispatch(searchCountries(''));
-    this.props.dispatch(setOffset(this.props.perPage));
-  }
-
-  componentWillMount() {
-    const pageCount = this.props.countries.length / this.props.perPage;
     this.props.dispatch(setPageCount(pageCount));
   }
 
@@ -34,31 +22,24 @@ class CountryFlagContainer extends Component {
   }
 
   handleSelect(event) {
-    this.setState(this.state);
     const value = Number.parseInt(event.target.value, 10);
     const pageCount = Math.ceil(this.props.countries.length / value);
     this.props.dispatch(setPerPage(value));
-    this.props.dispatch(setOffset(0));
+    this.props.dispatch(setActivePage(0));
     this.props.dispatch(setPageCount(pageCount));
-    this.setState({
-      firstPage: 0
-    });
     this.props.dispatch(getCountries());
   }
 
   handlePageClick = data => {
     let selected = data.selected;
-    let offset = Math.ceil(selected * this.props.perPage);
-    this.props.dispatch(setOffset(offset));
-    this.setState({ firstPage: selected });
+    this.props.dispatch(setActivePage(selected));
     this.props.dispatch(getCountries());
   };
 
   render() {
-    const countriesPerPage = this.props.visibleCountries.slice(
-      this.props.offset,
-      this.props.offset + this.props.perPage
-    );
+    console.log(this.props);
+    const offset = this.props.activePage * this.props.perPage;
+    const countriesPerPage = this.props.visibleCountries.slice(offset, offset + this.props.perPage);
     return (
       <div>
         <div className="search text-center">
@@ -81,7 +62,7 @@ class CountryFlagContainer extends Component {
                 pageCount={this.props.pageCount}
                 onPageChange={this.handlePageClick}
                 containerClassName={'pagination'}
-                forcePage={this.state.firstPage}
+                forcePage={this.props.activePage}
                 marginPagesDisplayed={2}
                 pageRangeDisplayed={4}
                 activeClassName={'active'}
@@ -99,8 +80,8 @@ const mapStateToProps = function(store) {
     countries: store.countriesReducer.countries,
     visibleCountries: store.countriesReducer.visibleCountries,
     perPage: store.paginationReducer.perPage,
-    offset: store.paginationReducer.offset,
-    pageCount: store.paginationReducer.pageCount
+    pageCount: store.paginationReducer.pageCount,
+    activePage: store.paginationReducer.activePage
   };
 };
 
