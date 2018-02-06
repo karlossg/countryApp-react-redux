@@ -13,22 +13,23 @@ class CountryFlagContainer extends Component {
     this.props.dispatch(setPageCount(pageCount));
   }
 
-  search(event) {
+  search = event => {
+    this.props.dispatch(setActivePage(0));
     this.props.dispatch(searchCountries(event.target.value));
-  }
+  };
 
-  deleteCountry(id) {
+  deleteCountry = id => {
     this.props.dispatch(deleteCountry(id));
-  }
+  };
 
-  handleSelect(event) {
+  handleSelect = event => {
     const value = Number.parseInt(event.target.value, 10);
     const pageCount = Math.ceil(this.props.countries.length / value);
     this.props.dispatch(setPerPage(value));
     this.props.dispatch(setActivePage(0));
     this.props.dispatch(setPageCount(pageCount));
     this.props.dispatch(getCountries());
-  }
+  };
 
   handlePageClick = data => {
     let selected = data.selected;
@@ -37,26 +38,24 @@ class CountryFlagContainer extends Component {
   };
 
   render() {
-    console.log(this.props);
     const offset = this.props.activePage * this.props.perPage;
     const countriesPerPage = this.props.visibleCountries.slice(offset, offset + this.props.perPage);
     return (
       <div>
         <div className="search text-center">
-          <select onChange={this.handleSelect.bind(this)}>
+          <select onChange={this.handleSelect}>
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
             <option value="20">20</option>
           </select>
-          <input type="text" onChange={this.search.bind(this)} placeholder="Search..." />
+          <input type="text" onChange={this.search} placeholder="Search..." />
         </div>
         <div>
-          <CountryFlagList countries={countriesPerPage} deleteCountry={this.deleteCountry.bind(this)} />
+          <CountryFlagList countries={countriesPerPage} deleteCountry={this.deleteCountry} />
           <div className="myPagination">
             {this.props.pageCount > 1 && (
               <ReactPaginate
-                className="myPagination"
                 previousLabel={'previous'}
                 nextLabel={'next'}
                 pageCount={this.props.pageCount}
@@ -75,7 +74,7 @@ class CountryFlagContainer extends Component {
   }
 }
 
-const mapStateToProps = function(store) {
+const mapStateToProps = store => {
   return {
     countries: store.countriesReducer.countries,
     visibleCountries: store.countriesReducer.visibleCountries,

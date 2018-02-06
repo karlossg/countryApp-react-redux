@@ -4,13 +4,13 @@ import { setContinent, deleteCountry } from '../actions/countries-actionsCreator
 import CountryFlagList from '../presentational/CountryFlagList';
 
 class ContinentsContainer extends Component {
-  chooseContinent(event) {
+  chooseContinent = event => {
     this.props.dispatch(setContinent(event.target.value));
-  }
+  };
 
-  deleteCountry(id) {
+  deleteCountry = id => {
     this.props.dispatch(deleteCountry(id));
-  }
+  };
 
   componentDidMount() {
     this.props.dispatch(setContinent('Europa'));
@@ -23,13 +23,13 @@ class ContinentsContainer extends Component {
           <option value="Europa">Europa</option>
           <option value="Afryka">Afryka</option>
         </select>
-        <CountryFlagList countries={this.props.visibleCountries} deleteCountry={this.deleteCountry.bind(this)} />
+        <CountryFlagList countries={this.props.visibleCountries} deleteCountry={this.deleteCountry} />
       </div>
     );
   }
 }
 
-const mapStateToProps = function(store) {
+const mapStateToProps = store => {
   return {
     visibleCountries: store.countriesReducer.visibleCountries
   };
