@@ -15,13 +15,13 @@ class CountryFlagContainer extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(getCountries(this.props.offset, this.props.perPage));
+    this.props.dispatch(getCountries());
     this.props.dispatch(searchCountries(''));
-    this.setState({ offset: this.props.perPage });
+    this.props.dispatch(setOffset(this.props.perPage));
   }
 
   componentWillMount() {
-    const pageCount = 20 / this.props.perPage;
+    const pageCount = this.props.countries.length / this.props.perPage;
     this.props.dispatch(setPageCount(pageCount));
   }
 
@@ -36,14 +36,14 @@ class CountryFlagContainer extends Component {
   handleSelect(event) {
     this.setState(this.state);
     const value = Number.parseInt(event.target.value, 10);
-    const pageCount = Math.ceil(20 / value);
+    const pageCount = Math.ceil(this.props.countries.length / value);
     this.props.dispatch(setPerPage(value));
     this.props.dispatch(setOffset(0));
     this.props.dispatch(setPageCount(pageCount));
     this.setState({
       firstPage: 0
     });
-    this.props.dispatch(getCountries(0, value));
+    this.props.dispatch(getCountries());
   }
 
   handlePageClick = data => {
@@ -51,10 +51,14 @@ class CountryFlagContainer extends Component {
     let offset = Math.ceil(selected * this.props.perPage);
     this.props.dispatch(setOffset(offset));
     this.setState({ firstPage: selected });
-    this.props.dispatch(getCountries(offset, offset + this.props.perPage));
+    this.props.dispatch(getCountries());
   };
 
   render() {
+    const countriesPerPage = this.props.visibleCountries.slice(
+      this.props.offset,
+      this.props.offset + this.props.perPage
+    );
     return (
       <div>
         <div className="search text-center">
@@ -67,7 +71,7 @@ class CountryFlagContainer extends Component {
           <input type="text" onChange={this.search.bind(this)} placeholder="Search..." />
         </div>
         <div>
-          <CountryFlagList countries={this.props.visibleCountries} deleteCountry={this.deleteCountry.bind(this)} />
+          <CountryFlagList countries={countriesPerPage} deleteCountry={this.deleteCountry.bind(this)} />
           <div className="myPagination">
             {this.props.pageCount > 1 && (
               <ReactPaginate
