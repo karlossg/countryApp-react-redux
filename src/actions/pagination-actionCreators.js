@@ -4,5 +4,19 @@ export function setPerPage(perPage) {
   return {
     type: SET_PER_PAGE,
     perPage
-  }
+  };
+}
+
+export function setOffset(offset) {
+  return {
+    type: SET_OFFSET,
+    offset
+  };
+}
+
+export function setPageCount(pageCount) {
+  return {
+    type: SET_PAGE_COUNT,
+    pageCount
+  };
 }
