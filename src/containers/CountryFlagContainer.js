@@ -28,13 +28,11 @@ class CountryFlagContainer extends Component {
     this.props.dispatch(setPerPage(value));
     this.props.dispatch(setActivePage(0));
     this.props.dispatch(setPageCount(pageCount));
-    this.props.dispatch(getCountries());
+
   };
 
   handlePageClick = data => {
-    let selected = data.selected;
-    this.props.dispatch(setActivePage(selected));
-    this.props.dispatch(getCountries());
+    this.props.dispatch(setActivePage(data.selected));
   };
 
   render() {
